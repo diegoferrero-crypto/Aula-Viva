@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula Viva · Gestión de Proyectos de Software</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --white: #ffffff;
+    --black: #111111;
+    --gray-100: #f0efed;
+    --gray-200: #e4e3e0;
+    --gray-400: #9e9d99;
+    --gray-600: #5c5b57;
+    --cobre: #b87333;
+    --cobre-light: #f5ece3;
+    --cobre-mid: #e8d0b8;
+    --bordo: #7b2d3e;
+    --bordo-light: #f5e8eb;
+    --bordo-mid: #e0b8c0;
+    --text: #111111;
+    --text-muted: #6b6a66;
+    --border: #e4e3e0;
+    --shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.1), 0 8px 32px rgba(0,0,0,0.06);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; min-height: 100vh; }
+  a { text-decoration: none; color: inherit; }
+
+  /* TOPBAR */
+  .topbar { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 32px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+  .topbar-left { display: flex; align-items: center; gap: 16px; }
+  .topbar-logos { display: flex; align-items: center; gap: 8px; }
+  .logo-pill { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  .logo-i2t { background: var(--cobre-light); color: var(--cobre); border: 1px solid var(--cobre-mid); }
+  .logo-ies { background: var(--bordo-light); color: var(--bordo); border: 1px solid var(--bordo-mid); }
+  .topbar-sep { width: 1px; height: 20px; background: var(--border); }
+  .topbar-title { font-size: 13px; font-weight: 400; color: var(--text-muted); }
+  .clase-chip { background: var(--gray-100); border: 1px solid var(--border); border-radius: 6px; padding: 4px 12px; font-size: 11px; font-weight: 500; color: var(--gray-600); }
+  .clase-chip strong { color: var(--cobre); }
+
+  /* HERO */
+  .hero { background: var(--white); border-bottom: 1px solid var(--border); padding: 40px 32px 36px; }
+  .hero-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+  .hero-label { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bordo); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .hero-label::before { content: ''; width: 20px; height: 2px; background: var(--bordo); display: inline-block; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px); font-weight: 600; line-height: 1.1; color: var(--black); margin-bottom: 10px; }
+  .hero-title span { color: var(--cobre); }
+  .hero-sub { font-size: 14px; color: var(--text-muted); font-weight: 300; }
+  .hero-visual { display: flex; gap: 12px; align-items: center; flex-shrink: 0; }
+  .hero-icon-block { width: 80px; height: 80px; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+  .hib-cobre { background: var(--cobre-light); border: 1px solid var(--cobre-mid); }
+  .hib-bordo { background: var(--bordo-light); border: 1px solid var(--bordo-mid); }
+  .hib-gray  { background: var(--gray-100); border: 1px solid var(--border); }
+
+  /* LAYOUT */
+  .layout { max-width: 960px; margin: 0 auto; padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  /* CARD BASE */
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; transition: box-shadow 0.2s, transform 0.2s; }
+  .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .card-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--gray-100); display: flex; align-items: center; gap: 10px; }
+  .card-header-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .chi-cobre { background: var(--cobre-light); } .chi-bordo { background: var(--bordo-light); } .chi-gray { background: var(--gray-100); }
+  .card-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 2px; }
+  .card-title { font-size: 14px; font-weight: 600; color: var(--black); }
+  .card-body { padding: 16px 24px 20px; }
+
+  /* SÓCRATES */
+  .card-socrates { grid-column: 1 / -1; }
+  .socrates-inner { display: flex; align-items: center; gap: 32px; padding: 24px; }
+  .socrates-visual { width: 110px; height: 110px; border-radius: 20px; background: var(--cobre-light); border: 1px solid var(--cobre-mid); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .socrates-content { flex: 1; }
+  .socrates-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cobre); margin-bottom: 6px; }
+  .socrates-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; color: var(--black); margin-bottom: 6px; }
+  .socrates-desc { font-size: 13px; color: var(--text-muted); font-weight: 300; line-height: 1.6; margin-bottom: 14px; max-width: 480px; }
+  .socrates-modes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .mode-tag { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; border: 1px solid; }
+  .mt-estudio { background: var(--cobre-light); color: var(--cobre); border-color: var(--cobre-mid); }
+  .mt-practica { background: var(--bordo-light); color: var(--bordo); border-color: var(--bordo-mid); }
+  .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--cobre); color: white; border: none; border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; transition: background 0.2s, transform 0.15s; }
+  .btn-primary:hover { background: #a0652d; transform: translateY(-1px); }
+
+  /* ENCUESTA */
+  .encuesta-desc { font-size: 13px; color: var(--text-muted); font-weight: 300; margin-bottom: 12px; }
+  .encuesta-visual { width: 100%; height: 72px; background: var(--gray-100); border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--border); margin-bottom: 12px; }
+  .bar { border-radius: 3px; background: var(--bordo); opacity: 0.7; width: 16px; animation: barPulse 1.8s ease infinite; }
+  .bar:nth-child(1){height:28px;animation-delay:0s} .bar:nth-child(2){height:48px;animation-delay:.2s} .bar:nth-child(3){height:24px;animation-delay:.4s} .bar:nth-child(4){height:40px;animation-delay:.1s} .bar:nth-child(5){height:18px;animation-delay:.3s}
+  @keyframes barPulse { 0%,100%{opacity:.45} 50%{opacity:.85} }
+  .btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--white); color: var(--bordo); border: 1px solid var(--bordo-mid); border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.2s; text-decoration: none; width: 100%; }
+  .btn-secondary:hover { background: var(--bordo-light); border-color: var(--bordo); }
+
+  /* MATERIAL */
+  .card-material { grid-column: 1 / -1; }
+  .unidades-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--border); border-radius: 0 0 12px 12px; overflow: hidden; }
+  .unidad-item { background: var(--white); padding: 13px 20px; display: flex; align-items: center; gap: 12px; transition: background 0.15s; }
+  .unidad-item:hover { background: var(--gray-100); }
+  .unidad-num { width: 26px; height: 26px; border-radius: 5px; background: var(--gray-100); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: var(--gray-600); flex-shrink: 0; }
+  .unidad-info { flex: 1; min-width: 0; }
+  .unidad-name { font-size: 12px; font-weight: 500; color: var(--black); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .unidad-meta { font-size: 10px; color: var(--gray-400); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .unidad-links { display: flex; gap: 4px; flex-shrink: 0; }
+  .ul-btn { font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 4px; text-decoration: none; transition: all 0.15s; white-space: nowrap; }
+  .ul-slides { background: var(--cobre-light); color: var(--cobre); border: 1px solid var(--cobre-mid); }
+  .ul-slides:hover { background: var(--cobre-mid); }
+  .ul-recursos { background: var(--bordo-light); color: var(--bordo); border: 1px solid var(--bordo-mid); }
+  .ul-recursos:hover { background: var(--bordo-mid); }
+  .ul-pronto { background: var(--gray-100); color: var(--gray-400); border: 1px solid var(--border); cursor: default; }
+
+  /* DOCENTES */
+  .card-docentes { grid-column: 1 / -1; }
+  .docentes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .doc-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--gray-100); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; color: var(--text); transition: all 0.2s; }
+  .doc-item:hover { background: var(--white); border-color: var(--gray-400); box-shadow: var(--shadow); }
+  .doc-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .di-cobre { background: var(--cobre-light); border: 1px solid var(--cobre-mid); }
+  .di-bordo { background: var(--bordo-light); border: 1px solid var(--bordo-mid); }
+  .di-gray  { background: var(--white); border: 1px solid var(--border); }
+  .doc-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); }
+  .doc-name { font-size: 13px; font-weight: 500; color: var(--black); }
+  .doc-arrow { margin-left: auto; color: var(--gray-400); font-size: 14px; transition: transform 0.2s; }
+  .doc-item:hover .doc-arrow { transform: translateX(3px); }
+
+  /* MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 16px; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .modal-overlay.active { opacity: 1; pointer-events: all; }
+  .modal { background: var(--white); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 24px 64px rgba(0,0,0,0.15); width: 100%; max-width: 520px; overflow: hidden; transform: scale(0.96) translateY(8px); transition: transform 0.25s; }
+  .modal-overlay.active .modal { transform: scale(1) translateY(0); }
+  .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .modal-header-left { display: flex; align-items: center; gap: 10px; }
+  .modal-avatar { width: 32px; height: 32px; border-radius: 8px; background: var(--cobre-light); border: 1px solid var(--cobre-mid); display: flex; align-items: center; justify-content: center; }
+  .modal-title { font-size: 14px; font-weight: 600; }
+  .modal-subtitle { font-size: 11px; color: var(--text-muted); }
+  .modal-close { background: var(--gray-100); border: 1px solid var(--border); border-radius: 6px; color: var(--gray-600); cursor: pointer; font-size: 14px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .modal-close:hover { background: var(--gray-200); color: var(--black); }
+  .modal-body { height: 580px; }
+  .modal-body iframe { width: 100%; height: 100%; border: none; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); background: var(--white); padding: 16px 32px; }
+  .footer-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .footer-text { font-size: 11px; color: var(--gray-400); display: flex; align-items: center; gap: 8px; }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: livePulse 2s ease infinite; display: inline-block; }
+  @keyframes livePulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,.4)} 50%{opacity:.8;box-shadow:0 0 0 4px rgba(34,197,94,0)} }
+
+  /* RESPONSIVE */
+  @media(max-width:640px){
+    .layout{grid-template-columns:1fr;padding:16px;gap:16px}
+    .card-socrates,.card-material,.card-docentes{grid-column:1}
+    .socrates-inner{flex-direction:column;align-items:flex-start;gap:16px}
+    .socrates-visual{width:80px;height:80px}
+    .docentes-grid{grid-template-columns:1fr}
+    .hero{padding:24px 16px}
+    .hero-visual{display:none}
+    .topbar{padding:0 16px}
+    .modal-body{height:480px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-logos">
+      <span class="logo-pill logo-i2t">⬡ i2t</span>
+      <span class="logo-pill logo-ies">◈ IES</span>
+    </div>
+    <div class="topbar-sep"></div>
+    <span class="topbar-title">Gestión de Proyectos de Software</span>
+  </div>
+  <div class="topbar-right"></div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-label">3° año · Tecnicatura Superior en Desarrollo de Software</div>
+      <h1 class="hero-title">Aula <span>Viva</span></h1>
+      <p class="hero-sub">Tu espacio de aprendizaje con IA · IES Santa Fe × i2t · Cohorte 2026</p>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-icon-block hib-cobre">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <rect x="8" y="12" width="28" height="4" rx="2" fill="#b87333" opacity=".3"/>
+          <rect x="8" y="20" width="20" height="4" rx="2" fill="#b87333" opacity=".5"/>
+          <rect x="8" y="28" width="24" height="4" rx="2" fill="#b87333" opacity=".4"/>
+          <circle cx="36" cy="14" r="3" fill="#b87333"/>
+          <circle cx="28" cy="22" r="3" fill="#b87333"/>
+          <circle cx="32" cy="30" r="3" fill="#b87333"/>
+        </svg>
+      </div>
+      <div class="hero-icon-block hib-bordo">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <rect x="8" y="8" width="8" height="28" rx="2" fill="#7b2d3e" opacity=".2"/>
+          <rect x="18" y="8" width="8" height="28" rx="2" fill="#7b2d3e" opacity=".35"/>
+          <rect x="28" y="8" width="8" height="28" rx="2" fill="#7b2d3e" opacity=".2"/>
+          <rect x="9" y="12" width="6" height="5" rx="1" fill="#7b2d3e" opacity=".6"/>
+          <rect x="9" y="20" width="6" height="5" rx="1" fill="#7b2d3e" opacity=".6"/>
+          <rect x="19" y="14" width="6" height="5" rx="1" fill="#7b2d3e"/>
+          <rect x="29" y="18" width="6" height="5" rx="1" fill="#7b2d3e" opacity=".5"/>
+        </svg>
+      </div>
+      <div class="hero-icon-block hib-gray">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <circle cx="22" cy="22" r="4" fill="#111" opacity=".15"/>
+          <circle cx="10" cy="14" r="3" fill="#111" opacity=".2"/>
+          <circle cx="34" cy="12" r="3" fill="#111" opacity=".2"/>
+          <circle cx="12" cy="32" r="3" fill="#111" opacity=".2"/>
+          <circle cx="34" cy="32" r="3" fill="#111" opacity=".2"/>
+          <line x1="22" y1="22" x2="10" y2="14" stroke="#111" stroke-width="1" opacity=".15"/>
+          <line x1="22" y1="22" x2="34" y2="12" stroke="#111" stroke-width="1" opacity=".15"/>
+          <line x1="22" y1="22" x2="12" y2="32" stroke="#111" stroke-width="1" opacity=".15"/>
+          <line x1="22" y1="22" x2="34" y2="32" stroke="#111" stroke-width="1" opacity=".15"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="layout">
+
+  <!-- SÓCRATES -->
+  <div class="card card-socrates">
+    <div class="socrates-inner">
+      <div class="socrates-visual">
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="22" r="11" stroke="#b87333" stroke-width="2" opacity=".5"/>
+          <path d="M19 22c0-6.075 4.925-11 11-11s11 4.925 11 11" stroke="#b87333" stroke-width="1.5" stroke-dasharray="3 2" opacity=".4"/>
+          <circle cx="30" cy="22" r="4" fill="#b87333" opacity=".65"/>
+          <path d="M17 44c0-7.18 5.82-13 13-13s13 5.82 13 13" stroke="#b87333" stroke-width="2" opacity=".3"/>
+          <circle cx="22" cy="50" r="2" fill="#b87333" opacity=".3"/>
+          <circle cx="38" cy="50" r="2" fill="#b87333" opacity=".3"/>
+          <path d="M24 50h12" stroke="#b87333" stroke-width="1" opacity=".2"/>
+        </svg>
+      </div>
+      <div class="socrates-content">
+        <div class="socrates-tag">Tutor IA · i2t Software Factory</div>
+        <div class="socrates-title">Sócrates</div>
+        <div class="socrates-desc">Tu tutor de Gestión de Proyectos. No te da las respuestas — te hace las preguntas correctas para que llegues vos. Elegí el modo según lo que necesitás hoy.</div>
+        <div class="socrates-modes">
+          <span class="mode-tag mt-estudio">📖 Estudio — definiciones y ejemplos</span>
+          <span class="mode-tag mt-practica">⚔️ Práctica — método socrático</span>
+        </div>
+        <button class="btn-primary" onclick="abrirSocrates()">
+          Abrir Sócrates →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENCUESTA -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-icon chi-bordo">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="10" width="3" height="4" rx="1" fill="#7b2d3e"/><rect x="6.5" y="7" width="3" height="7" rx="1" fill="#7b2d3e" opacity=".7"/><rect x="11" y="4" width="3" height="10" rx="1" fill="#7b2d3e" opacity=".5"/></svg>
+      </div>
+      <div class="card-header-text">
+        <div class="card-label">Participación</div>
+        <div class="card-title">Encuesta de clase</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="encuesta-desc">El docente activa la encuesta al inicio de cada clase. Escaneá el QR o usá el código que aparece en el proyector.</p>
+      <div class="encuesta-visual">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+      <a href="https://app.sli.do" target="_blank" class="btn-secondary">Ir a la encuesta</a>
+    </div>
+  </div>
+
+  <!-- PRÓXIMA CLASE -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-header-icon chi-gray">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="2" stroke="#5c5b57" stroke-width="1.2"/><path d="M5 2v2M11 2v2M2 7h12" stroke="#5c5b57" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="card-header-text">
+        <div class="card-label">Agenda</div>
+        <div class="card-title">Próxima clase</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div style="padding:12px;background:var(--cobre-light);border-radius:8px;border:1px solid var(--cobre-mid);margin-bottom:10px;">
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--cobre);margin-bottom:4px;">Hoy</div>
+        <div style="font-size:13px;font-weight:500;color:var(--black);" id="tema-hoy">—</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px;" id="fecha-hoy">—</div>
+      </div>
+      <div style="padding:12px;background:var(--gray-100);border-radius:8px;border:1px solid var(--border);">
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-400);margin-bottom:4px;">Próxima clase</div>
+        <div style="font-size:13px;font-weight:500;color:var(--black);" id="tema-proxima">—</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px;" id="fecha-proxima">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MATERIAL -->
+  <div class="card card-material">
+    <div class="card-header">
+      <div class="card-header-icon chi-cobre">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 2h7l3 3v9H3V2z" stroke="#b87333" stroke-width="1.2"/><path d="M10 2v3h3" stroke="#b87333" stroke-width="1.2"/><path d="M5 7h6M5 10h4" stroke="#b87333" stroke-width="1" stroke-linecap="round" opacity=".6"/></svg>
+      </div>
+      <div class="card-header-text">
+        <div class="card-label">Recursos</div>
+        <div class="card-title">Material por unidad</div>
+      </div>
+    </div>
+    <div class="unidades-grid">
+      <div class="unidad-item"><div class="unidad-num">U1</div><div class="unidad-info"><div class="unidad-name">Conceptos básicos</div><div class="unidad-meta">Restricción triple · EDT · Roles</div></div><div class="unidad-links"><span class="ul-btn ul-pronto">Pronto</span></div></div>
+      <div class="unidad-item"><div class="unidad-num">U2</div><div class="unidad-info"><div class="unidad-name">Gestión del alcance</div><div class="unidad-meta">Alcance · WBS · Entregables</div></div><div class="unidad-links"><span class="ul-btn ul-pronto">Pronto</span></div></div>
+      <div class="unidad-item"><div class="unidad-num">U3</div><div class="unidad-info"><div class="unidad-name">Gestión de tiempos</div><div class="unidad-meta">Esfuerzo · Duración · Cronograma</div></div><div class="unidad-links"><span class="ul-btn ul-pronto">Pronto</span></div></div>
+      <div class="unidad-item"><div class="unidad-num">U4</div><div class="unidad-info"><div class="unidad-name">Gestión de costos</div><div class="unidad-meta">Presupuesto · Contingencias</div></div><div class="unidad-links"><span class="ul-btn ul-pronto">Pronto</span></div></div>
+      <div class="unidad-item"><div class="unidad-num">U5</div><div class="unidad-info"><div class="unidad-name">Gestión de riesgos</div><div class="unidad-meta">Identificación · Estrategias</div></div><div class="unidad-links"><span class="ul-btn ul-pronto">Pronto</span></div></div>
+      <div class="unidad-item"><div class="unidad-num">U6</div><div class="unidad-info"><div class="unidad-name">Gestión de equipos</div><div class="unidad-meta">Roles · Liderazgo · Conflictos</div></div><div class="unidad-links"><span class="ul-btn ul-pronto">Pronto</span></div></div>
+      <div class="unidad-item"><div class="unidad-num">U7</div><div class="unidad-info"><div class="unidad-name">Gestión de comunicación</div><div class="unidad-meta">Plan · Stakeholders</div></div><div class="unidad-links"><span class="ul-btn ul-pronto">Pronto</span></div></div>
+      <div class="unidad-item"><div class="unidad-num">U8</div><div class="unidad-info"><div class="unidad-name">Gestión de calidad</div><div class="unidad-meta">Aseguramiento · Control</div></div><div class="unidad-links"><span class="ul-btn ul-pronto">Pronto</span></div></div>
+      <div class="unidad-item"><div class="unidad-num">U9</div><div class="unidad-info"><div class="unidad-name">Proyectos ágiles · Scrum</div><div class="unidad-meta">Sprint · Backlog · Roles</div></div><div class="unidad-links"><span class="ul-btn ul-pronto">Pronto</span></div></div>
+    </div>
+  </div>
+
+  <!-- DOCENTES -->
+  <div class="card card-docentes">
+    <div class="card-header">
+      <div class="card-header-icon chi-gray">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="2.5" stroke="#5c5b57" stroke-width="1.2"/><path d="M1 13c0-2.761 2.239-5 5-5" stroke="#5c5b57" stroke-width="1.2" stroke-linecap="round"/><circle cx="11" cy="7" r="2" stroke="#5c5b57" stroke-width="1.2"/><path d="M8 13c0-1.657 1.343-3 3-3s3 1.343 3 3" stroke="#5c5b57" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="card-header-text">
+        <div class="card-label">Acceso restringido</div>
+        <div class="card-title">Espacio docente</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="docentes-grid">
+        <a href="https://claude.ai" target="_blank" class="doc-item">
+          <div class="doc-icon di-cobre"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="7" r="4" stroke="#b87333" stroke-width="1.5"/><path d="M3 16c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="#b87333" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div><div class="doc-label">IA Docente</div><div class="doc-name">Claude Project</div></div>
+          <span class="doc-arrow">→</span>
+        </a>
+        <a href="https://airtable.com/appGJ0OIzEf1M6NdJ" target="_blank" class="doc-item">
+          <div class="doc-icon di-bordo"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="2" stroke="#7b2d3e" stroke-width="1.5"/><path d="M2 7h14M7 7v9" stroke="#7b2d3e" stroke-width="1.2"/></svg></div>
+          <div><div class="doc-label">Repositorio</div><div class="doc-name">Airtable · Sesiones</div></div>
+          <span class="doc-arrow">→</span>
+        </a>
+        <a href="https://admin.sli.do" target="_blank" class="doc-item">
+          <div class="doc-icon di-gray"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="11" width="3" height="5" rx="1" fill="#5c5b57" opacity=".5"/><rect x="7" y="8" width="3" height="8" rx="1" fill="#5c5b57" opacity=".7"/><rect x="12" y="4" width="3" height="12" rx="1" fill="#5c5b57" opacity=".5"/></svg></div>
+          <div><div class="doc-label">Encuestas</div><div class="doc-name">Slido Admin</div></div>
+          <span class="doc-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-text"><span class="live-dot"></span>Aula Viva · IES Santa Fe × i2t Software Factory · Cohorte 2026</span>
+    <span class="footer-text">Gestión de Proyectos de Software · 3° año</span>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-socrates" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="modal-avatar">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="#b87333" stroke-width="1.2"/><path d="M3 14c0-2.761 2.239-5 5-5s5 2.239 5 5" stroke="#b87333" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div class="modal-title">Sócrates</div>
+          <div class="modal-subtitle">Tutor IA · Gestión de Proyectos</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="cerrarSocrates()">✕</button>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://typebot.co/socrates-ies-2026" allow="microphone"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Editá estos valores cada semana ──
+  const CONFIG = {
+    tema_hoy: "Introducción a Gestión de Proyectos",
+    fecha_hoy: "Semana 1",
+    tema_proximo: "Gestión del alcance",
+    fecha_proxima: "Próxima semana"
+  };
+
+  document.getElementById('tema-hoy').textContent = CONFIG.tema_hoy;
+  document.getElementById('fecha-hoy').textContent = CONFIG.fecha_hoy;
+  document.getElementById('tema-proxima').textContent = CONFIG.tema_proximo;
+  document.getElementById('fecha-proxima').textContent = CONFIG.fecha_proxima;
+
+  function abrirSocrates() {
+    document.getElementById('modal-socrates').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function cerrarSocrates() {
+    document.getElementById('modal-socrates').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modal-socrates')) cerrarSocrates();
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarSocrates(); });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Journey Map — App Supermercado</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --surface: #ffffff;
+    --surface2: #eef0f4;
+    --border: #d8dce6;
+    --accent: #d4960a;
+    --accent2: #2f6de0;
+    --accent3: #c0364f;
+    --text: #1a1a2e;
+    --text-muted: #7a7a96;
+    --input-bg: #f9fafc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 32px 24px 64px;
+  }
+
+  /* HEADER */
+  .header {
+    max-width: 1100px;
+    margin: 0 auto 48px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .header-left {}
+  .header-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .header-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+  .header-title span { color: var(--accent); }
+  .header-sub {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  .header-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 220px;
+  }
+  .meta-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .meta-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .meta-input {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 10px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+  .meta-input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  /* LAYOUT */
+  .main { max-width: 1100px; margin: 0 auto; }
+
+  /* PERFIL */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .perfil-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .field-label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .field-input {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    transition: border-color 0.2s;
+  }
+  .field-input:focus {
+    outline: none;
+    border-color: var(--accent2);
+  }
+  .field-textarea {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.5;
+  }
+
+  .perfil-grid .span2 { grid-column: span 2; }
+
+  /* JOURNEY STEPS */
+  .journey-section { margin-bottom: 40px; }
+
+  .steps-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .step-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 48px 1fr 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .step-card:hover { border-color: #3a3a50; }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .step-col { display: flex; flex-direction: column; gap: 6px; }
+  .step-col-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .step-input {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 8px 10px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+  .step-input:focus { outline: none; border-color: var(--accent2); }
+  .step-textarea {
+    resize: vertical;
+    min-height: 60px;
+    line-height: 1.5;
+  }
+
+  /* emotion badges */
+  .emotion-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .emotion-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .emotion-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .emotion-btn.selected { background: var(--accent); color: #0f0f13; border-color: var(--accent); font-weight: 600; }
+
+  .add-step-btn {
+    background: transparent;
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    color: var(--text-muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: center;
+  }
+  .add-step-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(240,192,64,0.04);
+  }
+
+  /* REQUERIMIENTOS */
+  .reqs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .req-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .req-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .req-card.funcional .req-card-title { color: var(--accent2); }
+  .req-card.no-funcional .req-card-title { color: var(--accent3); }
+  .req-card.oportunidad .req-card-title { color: var(--accent); }
+  .req-card.fuera .req-card-title { color: var(--text-muted); }
+
+  .req-textarea {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+  }
+  .req-textarea:focus { outline: none; border-color: var(--accent2); }
+  .req-hint {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* EXPORT */
+  .actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    max-width: 1100px;
+    margin: 32px auto 0;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0f0f13;
+  }
+  .btn-primary:hover { background: #ffd060; }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .btn-ghost:hover { border-color: var(--text-muted); color: var(--text); }
+
+  /* PRINT */
+  @media print {
+    body { background: white; color: #111; padding: 16px; }
+    .step-card, .req-card { border: 1px solid #ddd; background: #fafafa; break-inside: avoid; }
+    .header { border-bottom-color: #ddd; }
+    .actions { display: none; }
+    .step-input, .field-input, .req-textarea, .meta-input, .field-textarea, .step-textarea {
+      border: 1px solid #ccc; background: white; color: #111;
+    }
+    .step-number { background: #f0f0f0; border-color: #ccc; }
+    .add-step-btn { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-tag">Gestión de Proyectos · Unidad 2</div>
+    <div class="header-title">Customer Journey Map<br><span>App Supermercado</span></div>
+    <div class="header-sub">Completá cada etapa del recorrido del usuario desde su perspectiva</div>
+  </div>
+  <div class="header-meta">
+    <div class="meta-field">
+      <span class="meta-label">Grupo / Integrantes</span>
+      <input class="meta-input" type="text" placeholder="Nombres del grupo...">
+    </div>
+    <div class="meta-field">
+      <span class="meta-label">Fecha</span>
+      <input class="meta-input" type="date">
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- PERFIL DE USUARIO -->
+  <div class="section-title">01 · Perfil del usuario</div>
+  <div class="perfil-grid">
+    <div class="field-group">
+      <span class="field-label">Nombre del usuario</span>
+      <input class="field-input" type="text" placeholder="ej. Juan Rodríguez">
+    </div>
+    <div class="field-group">
+      <span class="field-label">Edad / Situación</span>
+      <input class="field-input" type="text" placeholder="ej. 42 años, casado, 2 hijos">
+    </div>
+    <div class="field-group">
+      <span class="field-label">Frecuencia de uso esperada</span>
+      <input class="field-input" type="text" placeholder="ej. 2 veces por semana">
+    </div>
+    <div class="field-group">
+      <span class="field-label">Motivación principal para usar la app</span>
+      <input class="field-input" type="text" placeholder="¿Para qué la usaría principalmente?">
+    </div>
+    <div class="field-group span2">
+      <span class="field-label">Descripción general del perfil</span>
+      <textarea class="field-input field-textarea" placeholder="Describí brevemente quién es este usuario, sus hábitos de compra, qué dispositivos usa, qué espera de la app..."></textarea>
+    </div>
+  </div>
+
+  <!-- JOURNEY STEPS -->
+  <div class="journey-section">
+    <div class="section-title">02 · Etapas del recorrido</div>
+    <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px; line-height:1.5;">
+      Para cada etapa: describí qué hace el usuario, qué piensa/siente, y qué debería hacer la app en ese momento. Podés agregar más pasos con el botón al final.
+    </p>
+
+    <div class="steps-container" id="stepsContainer">
+
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-col">
+          <span class="step-col-label">Acción del usuario</span>
+          <textarea class="step-input step-textarea" placeholder="¿Qué hace el usuario en este momento?"></textarea>
+          <span class="step-col-label" style="margin-top:6px">Contexto / lugar</span>
+          <input class="step-input" type="text" placeholder="ej. llega al supermercado...">
+        </div>
+        <div class="step-col">
+          <span class="step-col-label">Pensamiento / emoción</span>
+          <textarea class="step-input step-textarea" placeholder="¿Qué piensa o siente el usuario?"></textarea>
+          <span class="step-col-label" style="margin-top:6px">¿Cómo se siente?</span>
+          <div class="emotion-selector">
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😊 Satisfecho</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😐 Neutral</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😕 Confundido</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😤 Frustrado</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">🤩 Entusiasmado</button>
+          </div>
+        </div>
+        <div class="step-col">
+          <span class="step-col-label">Funcionalidad de la app</span>
+          <textarea class="step-input step-textarea" placeholder="¿Qué debería hacer / mostrar la app en este momento?"></textarea>
+          <span class="step-col-label" style="margin-top:6px">Prioridad</span>
+          <select class="step-input">
+            <option value="">— seleccioná —</option>
+            <option>Alta</option>
+            <option>Media</option>
+            <option>Baja</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-col">
+          <span class="step-col-label">Acción del usuario</span>
+          <textarea class="step-input step-textarea" placeholder="¿Qué hace el usuario en este momento?"></textarea>
+          <span class="step-col-label" style="margin-top:6px">Contexto / lugar</span>
+          <input class="step-input" type="text" placeholder="">
+        </div>
+        <div class="step-col">
+          <span class="step-col-label">Pensamiento / emoción</span>
+          <textarea class="step-input step-textarea" placeholder="¿Qué piensa o siente el usuario?"></textarea>
+          <span class="step-col-label" style="margin-top:6px">¿Cómo se siente?</span>
+          <div class="emotion-selector">
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😊 Satisfecho</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😐 Neutral</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😕 Confundido</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😤 Frustrado</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">🤩 Entusiasmado</button>
+          </div>
+        </div>
+        <div class="step-col">
+          <span class="step-col-label">Funcionalidad de la app</span>
+          <textarea class="step-input step-textarea" placeholder="¿Qué debería hacer / mostrar la app en este momento?"></textarea>
+          <span class="step-col-label" style="margin-top:6px">Prioridad</span>
+          <select class="step-input">
+            <option value="">— seleccioná —</option>
+            <option>Alta</option>
+            <option>Media</option>
+            <option>Baja</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-col">
+          <span class="step-col-label">Acción del usuario</span>
+          <textarea class="step-input step-textarea" placeholder="¿Qué hace el usuario en este momento?"></textarea>
+          <span class="step-col-label" style="margin-top:6px">Contexto / lugar</span>
+          <input class="step-input" type="text" placeholder="">
+        </div>
+        <div class="step-col">
+          <span class="step-col-label">Pensamiento / emoción</span>
+          <textarea class="step-input step-textarea" placeholder="¿Qué piensa o siente el usuario?"></textarea>
+          <span class="step-col-label" style="margin-top:6px">¿Cómo se siente?</span>
+          <div class="emotion-selector">
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😊 Satisfecho</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😐 Neutral</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😕 Confundido</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">😤 Frustrado</button>
+            <button class="emotion-btn" onclick="toggleEmotion(this)">🤩 Entusiasmado</button>
+          </div>
+        </div>
+        <div class="step-col">
+          <span class="step-col-label">Funcionalidad de la app</span>
+          <textarea class="step-input step-textarea" placeholder="¿Qué debería hacer / mostrar la app en este momento?"></textarea>
+          <span class="step-col-label" style="margin-top:6px">Prioridad</span>
+          <select class="step-input">
+            <option value="">— seleccioná —</option>
+            <option>Alta</option>
+            <option>Media</option>
+            <option>Baja</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="add-step-btn" onclick="addStep()" style="margin-top:12px">+ Agregar etapa</button>
+  </div>
+
+  <!-- REQUERIMIENTOS DETECTADOS -->
+  <div class="section-title">03 · Requerimientos detectados</div>
+  <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px; line-height:1.5;">
+    A partir del recorrido que armaron, clasificá los requerimientos que identificaron.
+  </p>
+
+  <div class="reqs-grid">
+    <div class="req-card funcional">
+      <div class="req-card-title">✦ Funcionales</div>
+      <span class="req-hint">Qué debe <em>hacer</em> el sistema. Funcionalidades concretas.</span>
+      <textarea class="req-textarea" placeholder="ej.&#10;- Escaneo de QR al ingresar&#10;- Lista de compras en app&#10;- Notificaciones en tiempo real&#10;..."></textarea>
+    </div>
+    <div class="req-card no-funcional">
+      <div class="req-card-title">✦ No funcionales</div>
+      <span class="req-hint">Cómo debe <em>comportarse</em> el sistema. Rendimiento, seguridad, usabilidad.</span>
+      <textarea class="req-textarea" placeholder="ej.&#10;- La app debe responder en menos de 2s&#10;- Debe funcionar sin conexión para la lista&#10;- Compatibilidad con Android e iOS&#10;..."></textarea>
+    </div>
+    <div class="req-card oportunidad">
+      <div class="req-card-title">✦ Oportunidades / Mejoras</div>
+      <span class="req-hint">Cosas que no pidió nadie pero que mejorarían la experiencia.</span>
+      <textarea class="req-textarea" placeholder="ej.&#10;- Sugerencias por historial de compra&#10;- Gamificación con puntos&#10;..."></textarea>
+    </div>
+    <div class="req-card fuera">
+      <div class="req-card-title">✦ Fuera del alcance</div>
+      <span class="req-hint">Qué decidieron NO incluir en esta versión y por qué.</span>
+      <textarea class="req-textarea" placeholder="ej.&#10;- Delivery a domicilio (fuera de alcance v1)&#10;- Integración con redes sociales&#10;..."></textarea>
+    </div>
+  </div>
+
+  <!-- REFLEXIÓN FINAL -->
+  <div class="section-title">04 · Reflexión del grupo</div>
+  <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; margin-bottom:40px; display:flex; flex-direction:column; gap:14px;">
+    <div class="field-group">
+      <span class="field-label">¿Qué técnica de relevamiento usarían con el dueño del supermercado y por qué?</span>
+      <textarea class="field-input field-textarea" placeholder="Justificá la elección: entrevista, encuesta, prototipo u otra. ¿Qué información buscás con cada una?"></textarea>
+    </div>
+    <div class="field-group">
+      <span class="field-label">¿Qué pasaría si empezaran a desarrollar la app sin haber hecho este relevamiento?</span>
+      <textarea class="field-input field-textarea" placeholder="Pensá en riesgos concretos: funcionalidades innecesarias, falta de algo crítico, conflictos con el cliente..."></textarea>
+    </div>
+    <div class="field-group">
+      <span class="field-label">¿Qué criterio usarían para decidir qué entra en la primera versión y qué no?</span>
+      <textarea class="field-input field-textarea" placeholder="¿Cómo priorizarían los requerimientos detectados?"></textarea>
+    </div>
+  </div>
+
+</div>
+
+<div class="actions">
+  <button class="btn btn-ghost" onclick="window.print()">🖨 Imprimir / Guardar PDF</button>
+  <button class="btn btn-primary" onclick="exportarTexto()">⬇ Exportar como texto</button>
+</div>
+
+<script>
+  let stepCount = 3;
+
+  function toggleEmotion(btn) {
+    const siblings = btn.parentElement.querySelectorAll('.emotion-btn');
+    siblings.forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  function addStep() {
+    stepCount++;
+    const container = document.getElementById('stepsContainer');
+    const div = document.createElement('div');
+    div.className = 'step-card';
+    div.innerHTML = `
+      <div class="step-number">${stepCount}</div>
+      <div class="step-col">
+        <span class="step-col-label">Acción del usuario</span>
+        <textarea class="step-input step-textarea" placeholder="¿Qué hace el usuario en este momento?"></textarea>
+        <span class="step-col-label" style="margin-top:6px">Contexto / lugar</span>
+        <input class="step-input" type="text" placeholder="">
+      </div>
+      <div class="step-col">
+        <span class="step-col-label">Pensamiento / emoción</span>
+        <textarea class="step-input step-textarea" placeholder="¿Qué piensa o siente el usuario?"></textarea>
+        <span class="step-col-label" style="margin-top:6px">¿Cómo se siente?</span>
+        <div class="emotion-selector">
+          <button class="emotion-btn" onclick="toggleEmotion(this)">😊 Satisfecho</button>
+          <button class="emotion-btn" onclick="toggleEmotion(this)">😐 Neutral</button>
+          <button class="emotion-btn" onclick="toggleEmotion(this)">😕 Confundido</button>
+          <button class="emotion-btn" onclick="toggleEmotion(this)">😤 Frustrado</button>
+          <button class="emotion-btn" onclick="toggleEmotion(this)">🤩 Entusiasmado</button>
+        </div>
+      </div>
+      <div class="step-col">
+        <span class="step-col-label">Funcionalidad de la app</span>
+        <textarea class="step-input step-textarea" placeholder="¿Qué debería hacer / mostrar la app en este momento?"></textarea>
+        <span class="step-col-label" style="margin-top:6px">Prioridad</span>
+        <select class="step-input">
+          <option value="">— seleccioná —</option>
+          <option>Alta</option>
+          <option>Media</option>
+          <option>Baja</option>
+        </select>
+      </div>
+    `;
+    container.appendChild(div);
+    div.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function exportarTexto() {
+    const inputs = document.querySelectorAll('input[type=text], input[type=date], textarea, select');
+    let texto = '=== CUSTOMER JOURNEY MAP - App Supermercado ===\n\n';
+    inputs.forEach(el => {
+      const label = el.closest('.field-group, .step-col, .meta-field, .req-card')
+        ?.querySelector('.field-label, .step-col-label, .meta-label, .req-card-title')?.innerText || '';
+      const val = el.value.trim();
+      if (val) texto += `[${label}]\n${val}\n\n`;
+    });
+    const blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'customer_journey_grupo.txt';
+    a.click();
+  }
+</script>
+</body>
+</html>
